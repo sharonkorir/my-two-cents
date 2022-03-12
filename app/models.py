@@ -16,6 +16,7 @@ class User(UserMixin, db.Model):
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     pass_secure = db.Column(db.String(255))
+    posts = db.relationship('Post',backref = 'user',lazy = "dynamic")
 
     @property
     def password(self):
@@ -34,3 +35,35 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return f'User {self.username}'
+
+class Post(db.Model):
+    __tablename__ = 'posts'
+    id = db.Column(db.Integer,primary_key = True)
+    content = db.Column(db.String())
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+    title = db.Column(db.String(255))
+    #comments = db.relationship('Comment',backref = 'post',lazy = "dynamic")
+
+
+    def __repr__(self):
+        return f'Post {self.title}'
+
+    def save_post(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_posts(cls,id):
+        post = Post.query.filter_by(post_id=id).all()
+        return Post
+
+    @classmethod
+    def delete_posts(cls,id):
+        post = Post.query.filter_by(post_id=id).first()
+        db.session.delete(post)
+        db.session.commit()
+
+    @classmethod
+    def edit_posts(cls,id):
+        post = Post.query.filter_by(post_id=id).update({"content": post.content})
+        db.session.commit()

@@ -9,6 +9,7 @@ class Config:
     QUOTES_URL = 'http://quotes.stormconsultancy.co.uk/random.json'
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://sharon:12345678@localhost/my_two_cents'
     SECRET_KEY = os.environ.get('SECRET_KEY')
+    UPLOADED_PHOTOS_DEST ='app/static/photos'
     
     
 class ProdConfig(Config):
