@@ -3,24 +3,29 @@
 
 {% block content %}
 
-<!--block content here-->
-<div class="container">
-  <div class="row" style="background-color: aqua;" id="quotes">
-    <div class="col s12">
-      <blockquote id="quote">
-        <p>{{quote.quote}}</p>
-        <footer><cite>{{quote.author}}</cite></footer>
-      </blockquote>
+  <!--block content here-->
+  <div class="container">
+    <!--quote content here-->
+    <div class="row" style="background-color: aqua;" id="quotes">
+      <div class="col s12">
+        <blockquote id="quote">
+          <p>{{quote.quote}}</p>
+          <footer><cite>{{quote.author}}</cite></footer>
+        </blockquote>
+      </div>
+    </div>
+    <!--nav content here-->
+    <div class="row">
+      <p>mini nav/subscribe</p>
+    </div>
+    <!--post content here-->
+    <div class="row">
+      <p>posts here</p>
+    </div>
+    <!--footer content here-->
+    <div class="row" style="background-color: aqua;">
+      <p>footer here</p>
     </div>
   </div>
-  <div class="row">
-    <p>mini nav/subscribe</p>
-  </div>
-  <div class="row">
-    <p>posts here</p>
-  </div>
-  <div class="row" style="background-color: aqua;">
-    <p>footer here</p>
-  </div>
-</div>
+
 {% endblock%}
