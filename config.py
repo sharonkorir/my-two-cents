@@ -4,8 +4,7 @@ class Config:
     """
     General configurations parent class
     """
-    #SECRET_KEY = os.environ.get('SECRET_KEY')   
-    pass
+    QUOTES_URL = 'http://quotes.stormconsultancy.co.uk/random.json'
 
 class ProdConfig(Config):
     '''

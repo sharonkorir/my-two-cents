@@ -10,7 +10,11 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
       <!-- Google Materalize fonts -->
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <title>Home</title>
+      {% if title %}
+        <title> {{ title }}</title>
+        {% else %}
+        <title> My Two Cents </title>
+        {% endif %}
   </head>
   <body>
       {% block navbar %}
