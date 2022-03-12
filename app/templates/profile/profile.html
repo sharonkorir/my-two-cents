@@ -1,0 +1,57 @@
+{% extends 'base.html'%}
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/profile.css')}}">
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <h3 style="text-align: center;"> {{user.username| capitalize}} </h3>
+
+    <div class="card">
+      <div class="row valign-wrapper">
+        <div class="col s4">
+          {% if user.profile_pic_path %}
+          <img src="{{url_for('static',filename=user.profile_pic_path)}}" alt="" class="circle responsive-img">
+          {%else%}
+          <p>No profile picture</p>
+          {% endif %}
+          {% if user == current_user %}
+          <form  action="{{url_for('main.update_pic',uname=user.username)}}" method="post" enctype = "multipart/form-data">
+            <input type="file"  name="photo" class="form-control" required>
+            <input type="submit">
+          </form>
+          {% endif %}
+        </div>
+        <div class="col s8">
+          {% if user.bio %}
+          <h3></h3>
+          <p> {{user.bio}}</p>
+          {%else%}
+          <p> {{user.username| capitalize}} has no bio </p>
+          {% endif %}
+          {% if user == current_user %}
+          <button><a href="{{url_for('main.update_profile',uname=user.username)}}">Edit profile</a></button>
+          {% endif %}
+        </div>
+      </div>
+      
+    <!--user comment code-->
+    <div class="container">
+      <div class="col s12 m8 offset-m2 l6 offset-l3">
+        <div class="card-panel grey lighten-5 z-depth-1">
+          <div class="row valign-wrapper">
+            <div class="col s2">
+              <img src="http://www.american.edu/uploads/profiles/large/chris_palmer_profile_11.jpg" alt="" class="circle responsive-img">
+              <!-- notice the "circle" class -->
+            </div>
+            <div class="col s10">
+              <span class="black-text">
+                  This is a square image. Add the "circle" class to it to make it appear circular.
+                </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

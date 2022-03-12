@@ -3,7 +3,7 @@ from config import config_options
 from flask_materialize import Material
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-# from flask_uploads import UploadSet, configure_uploads, IMAGES
+from flask_uploads import UploadSet, configure_uploads, IMAGES
 # from flask_mail import Mail
 
 login_manager = LoginManager()
@@ -12,7 +12,7 @@ login_manager.login_view = 'auth.login'
 
 material = Material()
 db = SQLAlchemy()
-#photos = UploadSet('photos',IMAGES)
+photos = UploadSet('photos',IMAGES)
 #mail = Mail()
 #simple = SimpleMDE()
 
@@ -24,7 +24,7 @@ def create_app(config_name):
     app.config.from_object(config_options[config_name])
 
     # Configure UploadSet
-    # configure_uploads(app, photos)
+    configure_uploads(app, photos)
 
     # Initializing Flask Extensions
     db.init_app(app)
