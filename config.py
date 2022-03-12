@@ -5,7 +5,8 @@ class Config:
     General configurations parent class
     """
     QUOTES_URL = 'http://quotes.stormconsultancy.co.uk/random.json'
-
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://sharon:12345678@localhost/my_two_cents'
+    
 class ProdConfig(Config):
     '''
     Production  configuration child class
