@@ -1,72 +1,96 @@
 {% extends 'base.html'%} 
-
+<!-- Styles block -->
 {% block styles %}
     {{ super() }}
-    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
 {% endblock %}
 
 {% block content %}
-
-  <!--block content here-->
-  <div class="container">
-    <!--quote content here-->
-    <div class="row" style="background-color: aqua;" id="quotes">
-      <div class="col s12">
-        <blockquote id="quote">
-          <p>{{quote.quote}}</p>
-          <footer><cite>{{quote.author}}</cite></footer>
-        </blockquote>
+  <div class="container-fluid" id="quote-container">
+      <div class="row" >
+        <div class="col s2"></div>
+        <div class="col s8" id="quotes">
+          <blockquote id="quote">
+            <p>{{quote.quote}}</p>
+            <footer><cite>{{quote.author}}</cite></footer>
+          </blockquote>
+        </div>
+        <div class="col s2"></div>
       </div>
-    </div>
+  </div>
+  <!--block content here-->
+  <div class="container-fluid" style="background-color: white; margin: 25px;">
+    <!--quote content here-->
     <!--nav content here-->
-    <div class="row">
+    <div class="row" id="mini-nav">
+      <div class="col s2"></div>
+      <div class="col s8">
+        <h4>My two cents</h4>
+        <hr>
+        <h5>Talk is cheap. Show me the code</h5>
+      </div>
+      <div class="col s2"></div>
+    </div>
+    <!--<div class="row">
       <p>mini nav/subscribe</p>
       <p><a class="btn btn-warning" href="/create_post" role="button">Write post</a></p>
-    </div>
+    </div>-->
     {% for message in get_flashed_messages() %}
-    <div class="alert card green lighten-4 green-text text-darken-4">
-      <div class="card-content">
-        <p><i class="material-icons">check_circle</i><span>{{message}}</span></p>
-        <!--<button class="card-close waves-effect waves-green btn-flat">Close</button>-->
+    <div class="row" id="alert">
+      <div class="alert card green lighten-4 green-text text-darken-4">
+        <div class="card-content">
+          <p><i class="material-icons">check_circle</i><span>{{message}}</span></p>
+        </div>
       </div>
     </div>
     {% endfor %}
     <!--post content here-->
-    <div class="row">
-      <div class="row">
-        <h4>Recent blog posts:</h4>
-        {% if posts %}
+    <div class="row" id="container">
+        <div class="row">
+          {% if posts %}
           {% for post in posts %}
           <div class="col s12">
-            <div class="card">
-              <div class="card-header">{{post.title|upper}}</div>
+            <div class="box">
+              <div class="card-header" style="text-align: center;">
+                <h5><strong>{{post.title|upper}}</strong></h5>
+              </div>
               <hr>
               <div class="card-body">
-                <p class="card-title">{{post.content|truncate}}</p>
-                <p>{{post.category}}</p>
-                <p><strong>Written by:</strong>  {{post.user.username}} on {{post.date_posted}}</p>
-                <p><a class="btn btn-warning" href="{{url_for('main.new_comment', post_id = post.id)}}" role="button">View post</a></p>
+                <p>{{post.content|truncate}}</p>
               </div>
+              <div class="row">
+                <div class="col s3"></div>
+                <div class="col s6"><hr style="color: rgb(190, 190, 190)"></div>
+                <div class="col s3"></div>
+              </div>
+              
+              <div class="card-footer" style="text-align: center;">
+                  <p><strong>Written by:</strong> {{post.user.username}} . <a href="{{url_for('main.new_comment', post_id = post.id)}}" role="button">View post</a> . {{post.date_posted}}</p>
+              </div>
+              <br>
+             
             </div>
           </div>
           {%endfor%}
         {%else%}
         <p>There are no posts yet</p>
         {%endif%}
+        </div>
+        
       </div>
     </div>
-    <!--footer content here-->
-    <div class="row" style="background-color: aqua;">
-      <p>footer here</p>
+   
+  
+  </div>
+ <!--footer content here-->
+<footer class="page-footer" style="background-color: #24282d; max-height: 80px;">
+  <div class="footer-copyright">
+    <div class="container">
+      © 2014 MyTwoCents
+      <a class="grey-text text-lighten-4 right" href="/">Scroll to top</a>
     </div>
   </div>
-
-  {% block footer %}
-
-    {% include "footer.html" %}
-    
-  {% endblock %}
-
+</footer>
 {% endblock%}
 
 

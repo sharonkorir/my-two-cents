@@ -1,4 +1,4 @@
-body {
+/*body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
@@ -6,18 +6,60 @@ body {
 
 main {
   flex: 1 0 auto;
+}*/
+body{
+  background-color: #24282d;
+}
+.box{
+  padding: 20px;
+  margin: 20px;
+}
+
+.card-body{
+  padding: 10px;
+  font-size: 16pt;
+  text-align: justify;
+  text-justify: inter-word;
+  color: #7e8f90;
+}
+
+.card-footer{
+  color: #7e8f90;
 }
 
 .card-content.span {
-			font-weight: bold;
-			font-size: 1.1em;
-			margin-right:4px;
+  font-weight: bold;
 }
 
 .card-content.material-icons {
-			font-size: 1.5em;
-			position: relative;
-			top: 5px;
-			margin-right: 0.5em;
+  font-size: 1.5em;
+  position: relative;
+  top: 5px;
+  margin-right: 0.5em;
 
 }	
+
+#quote-container{
+  background-image: url(../photos/quotes.jpg);
+  background-size: cover; 
+  background-repeat: no-repeat; 
+  height: 200px;
+}
+
+
+
+#quote{
+  background-color: whitesmoke; 
+  opacity: 80%; 
+  border-radius: 5px; 
+  text-align: center;
+  padding: 10px;
+  margin-top: 30px;
+  
+  /*position: absolute;*/
+  
+}
+
+#mini-nav{
+  text-align: center;
+}
