@@ -2,8 +2,8 @@ from flask import render_template, request, redirect, url_for, abort
 from . import main
 from ..request import get_quote
 from flask_login import login_required, current_user
-from ..models import User, Post
-from .forms import UpdateProfile, PostForm
+from ..models import User, Post, Comment
+from .forms import UpdateProfile, PostForm, CommentForm
 from .. import db, photos
 
 @main.route('/')
@@ -67,3 +67,20 @@ def new_post():
         return redirect(url_for('main.index'))
 
     return render_template('new_post.html', form=form)
+
+@main.route('/comment/<int:post_id>', methods = ['GET','POST'])
+@login_required
+def new_comment(post_id):
+    form = CommentForm()
+    post = Post.query.get(post_id)
+    related_comments = Comment.get_comments(post_id)
+    user_id = post.user_id
+    user = User.query.filter_by(id = user_id).first()
+
+    if form.validate_on_submit():
+        comment = form.comment.data
+        new_comment = Comment(comment=comment, post_id = post_id, user_id = current_user.get_id())
+        new_comment.save_comment()
+        return redirect(url_for('.new_comment',post_id = post_id))
+
+    return render_template('new_comment.html', comment_form=form, posts = post, comments = related_comments, user = user)

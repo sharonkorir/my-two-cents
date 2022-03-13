@@ -1,0 +1,43 @@
+{% extends 'base.html'%}
+{% import "material/wtf.html" as wtf %}
+
+<!-- Styles block -->
+
+
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+          <div class="card">
+            <div class="card-body" style="font-size: 20px;">
+              <h5 class="card-title" style="font-size: 24px;">{{posts.title|upper}}</h5>
+              <p class="card-text">{{posts.content}}</p>
+              <p>Posted by: <a href="#" class="card-link text-muted">{{posts.user.username}}</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <h2>Comments</h2>
+            <ul>
+                {% if comments %} 
+                  {% for comment in comments %}
+                    <li>
+                      <p>{{comment.comment}}</p>
+                      <p>Posted by: {{user.username}}</p>
+                    </li>
+                  {% endfor %}
+                {%else%}
+                  <p>This pitch has no comments yet</p>  
+                {% endif %}
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <h2>Leave a comment</h2>
+            {{ wtf.quick_form(comment_form) }}
+          </div>
+          <div class="col-md-3"></div>
+        </div>
+    </div>
+
+{% endblock %}
