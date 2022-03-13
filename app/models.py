@@ -42,7 +42,7 @@ class Post(db.Model):
     content = db.Column(db.String())
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
     title = db.Column(db.String(255))
-    comments = db.relationship('Comment',backref = 'post',lazy = "dynamic")
+    comments = db.relationship('Comment',backref = 'posts',lazy = "dynamic")
 
 
     def __repr__(self):

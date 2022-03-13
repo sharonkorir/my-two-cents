@@ -57,6 +57,7 @@ def update_pic(uname):
 @login_required
 def new_post():
     form = PostForm()
+    
   
     if form.validate_on_submit():
         title = form.title.data
@@ -74,13 +75,14 @@ def new_comment(post_id):
     form = CommentForm()
     post = Post.query.get(post_id)
     related_comments = Comment.get_comments(post_id)
-    user_id = post.user_id
+    user_id = current_user.get_id()
     user = User.query.filter_by(id = user_id).first()
 
     if form.validate_on_submit():
         comment = form.comment.data
         new_comment = Comment(comment=comment, post_id = post_id, user_id = current_user.get_id())
+        user = User.query.filter_by(id = user_id).first()
         new_comment.save_comment()
-        return redirect(url_for('.new_comment',post_id = post_id))
+        return redirect(url_for('.new_comment',post_id = post_id, user=user))
 
     return render_template('new_comment.html', comment_form=form, posts = post, comments = related_comments, user = user)
