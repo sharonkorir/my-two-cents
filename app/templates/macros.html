@@ -1,3 +1,24 @@
-{% macro display(yourMacros) %} 
+{% macro displayPost(posts) %} 
+
+{%if posts%}
+    {%for post in posts%}
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-header">{{post.title|upper}}</div>
+        <hr>
+        <div class="card-body">
+          <p class="card-title">{{post.content|truncate}}</p>
+          <p>{{post.category}}</p>
+          <p><strong>Submitted by:</strong>  {{post.user.username}}</p>
+          <p></p>
+        </div>
+        <p><a class="btn btn-warning" href="{{url_for('main.new_comment', post_id = post.id)}}" role="button">View comments</a></p>
+      </div>
+    </div>
+    {%endfor%}
+  {%else%}
+  <p>There are no posts yet</p>
+  {%endif%}
+
 
 {% endmacro %}

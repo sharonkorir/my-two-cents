@@ -1,5 +1,4 @@
 {% extends 'base.html'%} 
-{% import 'macros.html' as macro %} 
 
 {% block content %}
 
@@ -17,10 +16,33 @@
     <!--nav content here-->
     <div class="row">
       <p>mini nav/subscribe</p>
+      <p><a class="btn btn-warning" href="/create_post" role="button">Write post</a></p>
     </div>
     <!--post content here-->
     <div class="row">
       <p>posts here</p>
+      <div class="row">
+        <h4>Recent blog posts:</h4>
+        {%if posts%}
+          {%for post in posts%}
+          <div class="col-sm-4">
+            <div class="card">
+              <div class="card-header">{{post.title|upper}}</div>
+              <hr>
+              <div class="card-body">
+                <p class="card-title">{{post.content|truncate}}</p>
+                <p>{{post.category}}</p>
+                <p><strong>Written by:</strong>  {{post.user.username}}</p>
+                <p><a class="btn btn-warning" href="{{url_for('main.new_comment', post_id = post.id)}}" role="button">View comments</a></p>
+              </div>
+          
+            </div>
+          </div>
+          {%endfor%}
+        {%else%}
+        <p>There are no posts yet</p>
+        {%endif%}
+      </div>
     </div>
     <!--footer content here-->
     <div class="row" style="background-color: aqua;">

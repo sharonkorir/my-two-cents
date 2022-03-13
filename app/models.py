@@ -54,12 +54,12 @@ class Post(db.Model):
 
     @classmethod
     def get_posts(cls,id):
-        post = Post.query.filter_by(post_id=id).all()
-        return Post
+        posts = cls.query.filter_by(id=id).all()
+        return posts
 
     @classmethod
     def delete_posts(cls,id):
-        post = Post.query.filter_by(post_id=id).first()
+        post = Post.query.filter_by(id=id).first()
         db.session.delete(post)
         db.session.commit()
 

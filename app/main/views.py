@@ -1,16 +1,18 @@
 from flask import render_template, request, redirect, url_for, abort
 from . import main
-from ..request import get_quote 
-from flask_login import login_required
-from ..models import User
-from .forms import UpdateProfile
+from ..request import get_quote
+from flask_login import login_required, current_user
+from ..models import User, Post
+from .forms import UpdateProfile, PostForm
 from .. import db, photos
 
 @main.route('/')
 def index():
     title = 'My Two Cents'
     quote = get_quote()
-    return render_template('index.html', title=title, quote=quote)
+    post_id = Post.id
+    posts = Post.get_posts(post_id)
+    return render_template('index.html', title=title, quote=quote, posts = posts)
 
 @main.route('/user/<uname>')
 def profile(uname):
@@ -51,7 +53,17 @@ def update_pic(uname):
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname))
 
-@main.route('/post/new/<int:id>', methods = ['GET','POST'])
+@main.route('/create_post', methods = ['GET','POST'])
 @login_required
-def new_review(id):
-    pass
+def new_post():
+    form = PostForm()
+  
+    if form.validate_on_submit():
+        title = form.title.data
+        content = form.content.data
+        user_id = current_user
+        new_post = Post(title=title, content=content, user_id = current_user._get_current_object().id)
+        new_post.save_post()
+        return redirect(url_for('main.index'))
+
+    return render_template('new_post.html', form=form)

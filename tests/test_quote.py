@@ -10,7 +10,7 @@ class QuoteTest(unittest.TestCase):
         '''
         Set up method that will run before every Test
         '''
-        self.new_quote = Quote(1234,"There are only two kinds of programming languages: those people always bitch about and those nobody uses.", "Bjarne Stroustrup")
+        self.new_quote = Quote("There are only two kinds of programming languages: those people always bitch about and those nobody uses.", "Bjarne Stroustrup")
 
     def test_instance(self):
         self.assertTrue(isinstance(self.new_quote,Quote))
