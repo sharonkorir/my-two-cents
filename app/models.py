@@ -60,15 +60,10 @@ class Post(db.Model):
         posts = Post.query.order_by(Post.date_posted).all()
         return posts
 
-    @classmethod
-    def delete_posts(cls,id):
-        post = Post.query.filter_by(id=id).first()
-        db.session.delete(post)
-        db.session.commit()
-
-    @classmethod
-    def edit_posts(cls,id):
-        post = Post.query.filter_by(post_id=id).update({"content": post.content})
+    #@classmethod
+    def delete_post(self):
+        #post = Post.query.filter_by(id=id).first()
+        db.session.delete(self)
         db.session.commit()
 
 class Comment(db.Model):
@@ -90,8 +85,8 @@ class Comment(db.Model):
         comments =Comment.query.filter_by(post_id = post_id)
         return comments
 
-    @classmethod
-    def delete_comments(cls,id):
-        comment = Comment.query.filter_by(id=id).first()
-        db.session.delete(comment)
+    #@classmethod
+    def delete_comment(self):
+        #comment = Comment.query.filter_by(id=id).first()
+        db.session.delete(self)
         db.session.commit()
