@@ -7,6 +7,14 @@
 
 {% block content %}
     <div class="container">
+      {% for message in get_flashed_messages() %}
+      <div class="alert card green lighten-4 green-text text-darken-4">
+        <div class="card-content">
+          <p><i class="material-icons">check_circle</i><span>{{message}}</span></p>
+          <!--<button class="card-close waves-effect waves-green btn-flat">Close</button>-->
+        </div>
+      </div>
+      {% endfor %}
         <div class="row">
           <div class="card">
             <div class="card-body" style="font-size: 20px;">
