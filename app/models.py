@@ -1,7 +1,9 @@
+from datetime import datetime
 from . import db
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin
 from . import login_manager
+from flask import flash
 
 class Quote: 
     def __init__(self,author,quote):
@@ -39,11 +41,12 @@ class User(UserMixin, db.Model):
 class Post(db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer,primary_key = True)
-    content = db.Column(db.String())
-    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
     title = db.Column(db.String(255))
+    content = db.Column(db.Text())
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+    date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     comments = db.relationship('Comment',backref = 'posts',lazy = "dynamic")
-
+    slug = db.Column(db.String(255))
 
     def __repr__(self):
         return f'Post {self.title}'
@@ -52,9 +55,11 @@ class Post(db.Model):
         db.session.add(self)
         db.session.commit()
 
+        flash('Your post has been submitted successfully!')
+
     @classmethod
-    def get_posts(cls,id):
-        posts = cls.query.filter_by(id=id).all()
+    def get_posts(cls):
+        posts = Post.query.order_by(Post.date_posted).all()
         return posts
 
     @classmethod

@@ -1,4 +1,5 @@
-from flask import render_template, request, redirect, url_for, abort
+
+from flask import render_template, request, redirect, url_for, abort, flash
 from . import main
 from ..request import get_quote
 from flask_login import login_required, current_user
@@ -10,8 +11,8 @@ from .. import db, photos
 def index():
     title = 'My Two Cents'
     quote = get_quote()
-    post_id = Post.id
-    posts = Post.get_posts(post_id)
+    posts = Post.get_posts()
+    posts.reverse()
     return render_template('index.html', title=title, quote=quote, posts = posts)
 
 @main.route('/user/<uname>')
@@ -62,11 +63,13 @@ def new_post():
     if form.validate_on_submit():
         title = form.title.data
         content = form.content.data
+        slug = form.slug.data
         user_id = current_user
-        new_post = Post(title=title, content=content, user_id = current_user._get_current_object().id)
+        new_post = Post(title=title, content=content, user_id = current_user._get_current_object().id, slug = slug)
         new_post.save_post()
-        return redirect(url_for('main.index'))
 
+        return redirect(url_for('main.index'))
+    
     return render_template('new_post.html', form=form)
 
 @main.route('/comment/<int:post_id>', methods = ['GET','POST'])

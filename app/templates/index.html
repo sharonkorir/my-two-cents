@@ -1,5 +1,10 @@
 {% extends 'base.html'%} 
 
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
+{% endblock %}
+
 {% block content %}
 
   <!--block content here-->
@@ -18,21 +23,28 @@
       <p>mini nav/subscribe</p>
       <p><a class="btn btn-warning" href="/create_post" role="button">Write post</a></p>
     </div>
+    {% for message in get_flashed_messages() %}
+    <div class="alert card green lighten-4 green-text text-darken-4">
+      <div class="card-content">
+        <p><i class="material-icons">check_circle</i><span>Your post has been submitted successfully!</span></p>
+        <!--<button class="card-close waves-effect waves-green btn-flat">Close</button>-->
+      </div>
+    </div>
+    {% endfor %}
     <!--post content here-->
     <div class="row">
-      <p>posts here</p>
       <div class="row">
         <h4>Recent blog posts:</h4>
-        {%if posts%}
-          {%for post in posts%}
-          <div class="col-sm-4">
+        {% if posts %}
+          {% for post in posts %}
+          <div class="col s12">
             <div class="card">
               <div class="card-header">{{post.title|upper}}</div>
               <hr>
               <div class="card-body">
                 <p class="card-title">{{post.content|truncate}}</p>
                 <p>{{post.category}}</p>
-                <p><strong>Written by:</strong>  {{post.user.username}}</p>
+                <p><strong>Written by:</strong>  {{post.user.username}} on {{post.date_posted}}</p>
                 <p><a class="btn btn-warning" href="{{url_for('main.new_comment', post_id = post.id)}}" role="button">View comments</a></p>
               </div>
           

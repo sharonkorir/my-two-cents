@@ -10,6 +10,7 @@ class PostForm(FlaskForm):
 
     title = StringField('Blog post title',validators=[Required()])
     content = TextAreaField('Your post', validators=[Required()])
+    slug = StringField('Slug', validators=[Required()])
     submit = SubmitField('Submit')
 
 class CommentForm(FlaskForm):
