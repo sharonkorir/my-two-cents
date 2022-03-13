@@ -124,7 +124,7 @@ def edit_post(id):
 
     else:
         flash("You are not authorized to edit this post")
-        return redirect(url_for('.new_comment',post = post_to_edit, post_id = post.id))
+        return redirect(url_for('.new_comment',post = post_to_edit, post_id = post_to_edit.id))
     
     
 
@@ -160,5 +160,39 @@ def delete_post(id):
         posts.reverse()
         quote = get_quote()
         return render_template('index.html',  posts = posts, quote=quote)
+
+@main.route('/post/comment/delete/<int:id>')
+@login_required
+def delete_comment(id):
+    form = CommentForm()
+    comment_to_delete = Comment.query.get_or_404(id)
+    post_id = comment_to_delete.post_id
+    post = Post.query.get_or_404(post_id)
+    id = current_user.id
+    if id == comment_to_delete.user_id or id == post.user_id:
+
+        try:
+            db.session.delete(comment_to_delete)
+            db.session.commit()
+
+            #return success message
+            flash("This has been deleted")
+            #comments = Comment.get_comments()
+            quote = get_quote()
+            return render_template('new_comment.html', posts = post, quote=quote, comment_form = form)
+
+        except:
+
+            #return error message
+            flash("Whoops! The comment has not been deleted, try again")
+            #comments = Comment.get_comments()
+            quote = get_quote()
+            return render_template('new_comment.html', posts = post, quote=quote, comment_form=form)
+
+    else:
+        flash("You are not authorized to delete this comment")
+        comments = Comment.get_comments()
+        quote = get_quote()
+        return render_template('new_comment.html', posts = post, quote=quote , comment_form = form)
 
 
