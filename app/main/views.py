@@ -101,25 +101,29 @@ def edit_post(id):
     form = PostForm()
     post = Post.query.get(id)
     
-  
-    if form.validate_on_submit():
-        post.title = form.title.data
-        post.content = form.content.data
-        post.author = form.author.data
-        #update database
-        updated_post = Post.save_post(post)
-        #db.session.add(post)
-        #db.session.commit()
+    if id == post.user.id:
+      if form.validate_on_submit():
+          post.title = form.title.data
+          post.content = form.content.data
+          #post.author = form.author.data
+          #update database
+          updated_post = Post.save_post(post)
+          #db.session.add(post)
+          #db.session.commit()
 
-        flash("Post has been updated successfully!")
+          flash("Post has been updated successfully!")
 
-        return redirect(url_for('.new_comment',post = updated_post, post_id = post.id))
-        
-    form.title.data = post.title
-    form.content.data = post.content
-    form.author.data = post.author
+          return redirect(url_for('.new_comment',post = updated_post, post_id = post.id))
+          
+      form.title.data = post.title
+      form.content.data = post.content
+      #form.author.data = post.author
 
-    return render_template('edit_post.html', form = form)
+      return render_template('edit_post.html', form = form)
+
+    else:
+        flash("You are not authorized to edit this post")
+        return redirect(url_for('.new_comment',post = post, post_id = post.id))
     
     
 
@@ -127,24 +131,33 @@ def edit_post(id):
 @login_required
 def delete_post(id):
     post_to_delete = Post.query.get_or_404(id)
-    
+    id = current_user.id
+    if id == post_to_delete.user.id:
 
-    try:
-        db.session.delete(post_to_delete)
-        db.session.commit()
+        try:
+            db.session.delete(post_to_delete)
+            db.session.commit()
 
-        #return success message
-        flash("Blog post has been deleted")
+            #return success message
+            flash("Blog post has been deleted")
+            posts = Post.get_posts()
+            posts.reverse()
+            quote = get_quote()
+            return render_template('index.html', posts = posts, quote=quote)
+
+        except:
+
+            #return error message
+            flash("Whoops! The post has not been deleted, try again")
+            posts = Post.get_posts()
+            posts.reverse()
+            return render_template('index.html',  posts = posts, quote=quote)
+
+    else:
+        flash("You are not authorized to delete this post")
         posts = Post.get_posts()
         posts.reverse()
         quote = get_quote()
-        return render_template('index.html', posts = posts, quote=quote)
-
-    except:
-
-        #return error message
-        flash("Whoops! The post has not been deleted, try again")
-        posts = Post.get_posts()
-        posts.reverse()
         return render_template('index.html',  posts = posts, quote=quote)
+
 
