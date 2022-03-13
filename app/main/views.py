@@ -72,6 +72,7 @@ def new_post():
     
     return render_template('new_post.html', form=form)
 
+#view post
 @main.route('/comment/<int:post_id>', methods = ['GET','POST'])
 @login_required
 def new_comment(post_id):
@@ -89,3 +90,33 @@ def new_comment(post_id):
         return redirect(url_for('.new_comment',post_id = post_id, user=user))
 
     return render_template('new_comment.html', comment_form=form, posts = post, comments = related_comments, user = user)
+
+
+#edit blog posts
+#main.route('/edit_post/<int:id>', methods = ['GET','POST'])
+#@login_required
+#def edit_post(id):
+    
+    form = PostForm()
+    post = Post.query.get(id)
+    user_id = current_user.get_id()
+    user = User.query.filter_by(id = user_id).first()
+
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = form.content.data
+        post.slug = form.slug.data
+        post.user_id = User.query.filter_by(id = user_id).first()
+        #update database
+        db.session.add(post)
+        db.session.commit()
+
+        flash("Post has been updated successfully!")
+
+        return redirect(url_for('posts',id = post.id, post = post, user = user))
+       
+    form.title.data = post.title
+    form.content.data = post.data
+    form.slug.data = post.slug
+
+    return render_template('edit_post.html', form = form)

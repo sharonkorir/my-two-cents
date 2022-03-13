@@ -45,9 +45,9 @@
                 <p class="card-title">{{post.content|truncate}}</p>
                 <p>{{post.category}}</p>
                 <p><strong>Written by:</strong>  {{post.user.username}} on {{post.date_posted}}</p>
-                <p><a class="btn btn-warning" href="{{url_for('main.new_comment', post_id = post.id)}}" role="button">View comments</a></p>
+                <p><a class="btn btn-warning" href="{{url_for('main.new_comment', post_id = post.id)}}" role="button">View post</a></p>
+                
               </div>
-          
             </div>
           </div>
           {%endfor%}

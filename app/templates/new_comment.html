@@ -14,21 +14,25 @@
               <p class="card-text">{{posts.content}}</p>
               <p>Posted by: <a href="#" class="card-link text-muted">{{posts.user.username}}</a></p>
             </div>
+            <p><a class="btn btn-warning" href="/edit_posts" role="button">Edit post</a></p>
+                
           </div>
         </div>
         <div class="row">
           <div class="col-md-8">
-            <h2>Comments</h2>
+            
             <ul>
                 {% if comments %} 
+                <h5>Comments</h5>
                   {% for comment in comments %}
                     <li>
+                      
                       <p>{{comment.comment}}</p>
                       <p>Posted by: {{user.username}}</p>
                     </li>
                   {% endfor %}
                 {%else%}
-                  <p>This pitch has no comments yet</p>  
+                  <p>This post has no comments yet</p>  
                 {% endif %}
             </ul>
           </div>

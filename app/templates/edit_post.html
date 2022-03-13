@@ -1,0 +1,21 @@
+{% extends 'base.html'%}
+{% import "material/wtf.html" as wtf %}
+
+<!-- Styles block -->
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="row">
+          
+          <div class="col s12">
+            <h2>Update your post here</h2>
+            {{ wtf.quick_form(form) }}  
+          </div>
+          
+        </div>
+    </div>
+
+
+{% endblock %}
