@@ -66,7 +66,7 @@ def new_post():
         #author = form.author.data
         #user_id = current_user
         user = current_user.id
-        new_post = Post(title=title, content=content, user_id = current_user._get_current_object().id, poster_id = user)
+        new_post = Post(title=title, content=content, user_id = current_user._get_current_object().id)
         new_post.save_post()
 
         flash("Your post has been created successfully!")
@@ -99,31 +99,32 @@ def new_comment(post_id):
 @login_required
 def edit_post(id):
     form = PostForm()
-    post = Post.query.get(id)
-    
-    if id == post.user.id:
-      if form.validate_on_submit():
-          post.title = form.title.data
-          post.content = form.content.data
-          #post.author = form.author.data
-          #update database
-          updated_post = Post.save_post(post)
-          #db.session.add(post)
-          #db.session.commit()
+    post_to_edit = Post.query.get_or_404(id)
+    id = current_user.id
+    if id == post_to_edit.user.id:
 
-          flash("Post has been updated successfully!")
+        if form.validate_on_submit():
+            post_to_edit.title = form.title.data
+            post_to_edit.content = form.content.data
+            #post.author = form.author.data
+            #update database
+            updated_post = Post.save_post(post_to_edit)
+            #db.session.add(post)
+            #db.session.commit()
 
-          return redirect(url_for('.new_comment',post = updated_post, post_id = post.id))
+            flash("Post has been updated successfully!")
+
+            return redirect(url_for('.new_comment',post = updated_post, post_id = post_to_edit.id))
           
-      form.title.data = post.title
-      form.content.data = post.content
-      #form.author.data = post.author
+        form.title.data = post_to_edit.title
+        form.content.data = post_to_edit.content
+        #form.author.data = post.author
 
-      return render_template('edit_post.html', form = form)
+        return render_template('edit_post.html', form = form)
 
     else:
         flash("You are not authorized to edit this post")
-        return redirect(url_for('.new_comment',post = post, post_id = post.id))
+        return redirect(url_for('.new_comment',post = post_to_edit, post_id = post.id))
     
     
 
