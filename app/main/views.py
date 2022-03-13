@@ -68,6 +68,7 @@ def new_post():
         new_post = Post(title=title, content=content, user_id = current_user._get_current_object().id, slug = slug)
         new_post.save_post()
 
+        flash("Your post has been created successfully!")
         return redirect(url_for('main.index'))
     
     return render_template('new_post.html', form=form)
@@ -91,6 +92,32 @@ def new_comment(post_id):
 
     return render_template('new_comment.html', comment_form=form, posts = post, comments = related_comments, user = user)
 
+@main.route('/post/edit_post/<id>', methods = ['GET','POST'])
+@login_required
+def edit_post(id):
+    form = PostForm()
+    post = Post.query.get(id)
+    
+  
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = form.content.data
+        post.slug = form.slug.data
+        #update database
+        updated_post = Post.save_post(post)
+        #db.session.add(post)
+        #db.session.commit()
+
+        flash("Post has been updated successfully!")
+
+        return redirect(url_for('main.new_comment',post = updated_post, post_id = post.id))
+        
+    form.title.data = post.title
+    form.content.data = post.content
+    form.slug.data = post.slug
+
+    return render_template('edit_post.html', form = form)
+    
 
 #edit blog posts
 #main.route('/edit_post/<int:id>', methods = ['GET','POST'])

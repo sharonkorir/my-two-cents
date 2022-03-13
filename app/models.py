@@ -55,8 +55,6 @@ class Post(db.Model):
         db.session.add(self)
         db.session.commit()
 
-        flash('Your post has been submitted successfully!')
-
     @classmethod
     def get_posts(cls):
         posts = Post.query.order_by(Post.date_posted).all()
