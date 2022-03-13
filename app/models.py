@@ -42,7 +42,7 @@ class Post(db.Model):
     content = db.Column(db.String())
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
     title = db.Column(db.String(255))
-    #comments = db.relationship('Comment',backref = 'post',lazy = "dynamic")
+    comments = db.relationship('Comment',backref = 'post',lazy = "dynamic")
 
 
     def __repr__(self):
@@ -66,4 +66,29 @@ class Post(db.Model):
     @classmethod
     def edit_posts(cls,id):
         post = Post.query.filter_by(post_id=id).update({"content": post.content})
+        db.session.commit()
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer,primary_key = True)
+    comment = db.Column(db.String(225))
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+    post_id = db.Column(db.Integer,db.ForeignKey("posts.id"))
+
+    def __repr__(self):
+        return f'Comment {self.comment}'
+
+    def save_comment(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_comments(cls,post_id):
+        comments =Comment.query.filter_by(post_id = post_id)
+        return comments
+
+    @classmethod
+    def delete_comments(cls,id):
+        comment = Comment.query.filter_by(id=id).first()
+        db.session.delete(comment)
         db.session.commit()
