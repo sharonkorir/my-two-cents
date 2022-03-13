@@ -65,18 +65,20 @@
                 <div class="col s6"><hr style="color: rgb(190, 190, 190)"></div>
                 <div class="col s3"></div>
               </div>
-              
-              <div class="card-footer" style="text-align: center;">
-                  <p><strong>Written by:</strong> {{post.user.username}} . <a href="{{url_for('main.new_comment', post_id = post.id)}}" role="button">View post</a> . {{post.date_posted}}</p>
-              </div>
-              <br>
              
+                <ul class="card-footer" style="display: flex; justify-content: center;">
+                  <li><strong>Written by:</strong> {{post.user.username}}</li>
+                  <li style="padding-right: 20px; padding-left: 20px;"><a class="active" href="{{url_for('.new_comment', post_id = post.id)}}" role="button">View post</a></li>
+                  <li>{{post.date_posted}}</li>
+                </ul>
+              
+              
             </div>
           </div>
           {%endfor%}
-        {%else%}
-        <p>There are no posts yet</p>
-        {%endif%}
+          {%else%}
+          <p>There are no posts yet</p>
+          {%endif%}
         </div>
         
       </div>
