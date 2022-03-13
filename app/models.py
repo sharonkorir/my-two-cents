@@ -46,7 +46,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     comments = db.relationship('Comment',backref = 'posts',lazy = "dynamic")
-    slug = db.Column(db.String(255))
+    author = db.Column(db.String(255))
 
     def __repr__(self):
         return f'Post {self.title}'

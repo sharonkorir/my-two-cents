@@ -63,9 +63,10 @@ def new_post():
     if form.validate_on_submit():
         title = form.title.data
         content = form.content.data
-        slug = form.slug.data
-        user_id = current_user
-        new_post = Post(title=title, content=content, user_id = current_user._get_current_object().id, slug = slug)
+        #author = form.author.data
+        #user_id = current_user
+        user = current_user.id
+        new_post = Post(title=title, content=content, user_id = current_user._get_current_object().id, poster_id = user)
         new_post.save_post()
 
         flash("Your post has been created successfully!")
@@ -92,6 +93,8 @@ def new_comment(post_id):
 
     return render_template('new_comment.html', comment_form=form, posts = post, comments = related_comments, user = user)
 
+
+
 @main.route('/post/edit_post/<id>', methods = ['GET','POST'])
 @login_required
 def edit_post(id):
@@ -102,7 +105,7 @@ def edit_post(id):
     if form.validate_on_submit():
         post.title = form.title.data
         post.content = form.content.data
-        post.slug = form.slug.data
+        post.author = form.author.data
         #update database
         updated_post = Post.save_post(post)
         #db.session.add(post)
@@ -114,7 +117,7 @@ def edit_post(id):
         
     form.title.data = post.title
     form.content.data = post.content
-    form.slug.data = post.slug
+    form.author.data = post.author
 
     return render_template('edit_post.html', form = form)
     
@@ -145,26 +148,3 @@ def delete_post(id):
         posts.reverse()
         return render_template('index.html',  posts = posts, quote=quote)
 
-@main.route('/comment/delete/<id>')
-@login_required
-def delete_comment(id):
-    comment_to_delete = Comment.query.get(id)
-    quote = get_quote()
-
-    try:
-        comment_to_delete.Comment.delete_comment()
-        db.session.delete(comment_to_delete)
-        db.session.commit()
-
-        #return message
-        flash("Comment has been deleted")
-        comments = Comment.get_comments()
-        return render_template('new_comment.html', comments = comments)
-
-    except:
-
-        #return message
-        flash("Whoops! You cannot delete this comment, try again")
-        comments = Comment.get_comments()
-        return render_template('new_comment.html', comments = comments)
-    
