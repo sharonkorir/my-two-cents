@@ -2,6 +2,11 @@
 
 {% block content %}
 
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
+{% endblock %}
+
 <!--error message here-->
 
 <body style="text-align: center; background-image: url(../static/photos/404.jpg); background-repeat: no-repeat; background-size: cover">
