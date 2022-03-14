@@ -60,7 +60,7 @@ Open the application on localhost `127.0.0.1:5000`.
 
 ## Live link
 
-
+https://my-two-cents-blog.herokuapp.com/
 
 ## Technology used
 
