@@ -82,12 +82,14 @@ def new_comment(post_id):
     post = Post.query.get(post_id)
     related_comments = Comment.get_comments(post_id)
     user_id = current_user.get_id()
+    #user_id = related_comments.users.id
     user = User.query.filter_by(id = user_id).first()
+    #user = User.query.filter_by(id = user_id).first()
 
     if form.validate_on_submit():
         comment = form.comment.data
         new_comment = Comment(comment=comment, post_id = post_id, user_id = current_user.get_id())
-        user = User.query.filter_by(id = user_id).first()
+        comment_user = User.query.filter_by(id = new_comment.user_id).first()
         new_comment.save_comment()
         return redirect(url_for('.new_comment',post_id = post_id, user=user))
 

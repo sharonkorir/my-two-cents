@@ -55,7 +55,7 @@
                     <li>
                       
                       <p>{{comment.comment}}</p>
-                      <p>Posted by: {{user.username}}</p>
+                      <p>Posted by: {{comment.user.username}}</p>
                       <a class="btn btn-warning" href="{{url_for('main.delete_comment', id=comment.id)}}" role="button">Delete comment</a>
                     </li>
                   {% endfor %}
