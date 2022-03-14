@@ -10,6 +10,8 @@ class Config:
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://sharon:12345678@localhost/my_two_cents'
     SECRET_KEY = os.environ.get('SECRET_KEY')
     UPLOADED_PHOTOS_DEST ='app/static/photos'
+    SIMPLEMDE_JS_IIFE = True
+    SIMPLEMDE_USE_CDN = True
     
     
 class ProdConfig(Config):
