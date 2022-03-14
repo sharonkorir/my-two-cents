@@ -7,10 +7,10 @@
 {% endblock %}
 
 {% block content %}
-<div class="container"> 
+<div class="container" style="padding: 20px; margin-top: 30px; color: white;"> 
     <div class="row">
-      <div class= "col-md-2"> </div>
-      <div class="col-md-8">
+      <div class= "col s1"> </div>
+      <div class="col s10">
       <!--Flash message -->
       {% for message in get_flashed_messages() %}
         <div class="alert alert-danger">
@@ -20,9 +20,9 @@
       {% endfor %}
       <!-- Login form -->
       {{wtf.quick_form(login_form)}}
-      <p> Don't have an account? <a href="{{url_for('auth.register')}}">Sign up here</a></p>
+      <p style="color: white;"> Don't have an account? <a href="{{url_for('auth.register')}}">Sign up here</a></p>
      </div>
-     <div clas="col-md-2"> </div>
+     <div clas="col s1"> </div>
     </div>
 </div>
 

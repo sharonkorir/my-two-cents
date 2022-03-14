@@ -8,15 +8,18 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container" style="padding: 20px; color: white;">
+  <div class="row"></div>
   <div class="row">
-    <div class="col-md-2"> </div>
-      <div class="col-md-8">
+    <h5 style="text-align: center;">Sign up here</h5>
+    <div class="col s2"> </div>
+    
+      <div class="col s8" style="color: white;">
 
         {{wtf.quick_form(registration_form)}}
 
       </div>
-    <div class="col-md-2"></div>
+    <div class="col s2"></div>
   </div>
 </div>
 
