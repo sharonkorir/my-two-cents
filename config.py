@@ -1,6 +1,6 @@
 import os
 
-from instance.config import SECRET_KEY
+#from instance.config import SECRET_KEY
 
 class Config:
     """
@@ -19,7 +19,7 @@ class ProdConfig(Config):
     Args:
         Config: The parent configuration class with General configuration settings
     '''
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://vytgpulhhgwdsr:31b7c0f84a14a25462ea9723db1250eddeecbf8f2de3c7f4a9f093537e8e308d@ec2-54-235-98-1.compute-1.amazonaws.com:5432/d7fj5oqcf7tu8b'
     
   
     
